@@ -6,10 +6,17 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import useGetCity from "./hooks/useGetCity";
+import useGetMyShops from "./hooks/useGetMyShops";
+import CreateEditShop from "./pages/CreateEditShop";
+import AddItems from "./pages/AddItems";
+import EditItem from "./pages/EditItem";
 export const serverUrl = "http://localhost:8000";
 
 function App() {
   useGetCurrentUser();
+  useGetCity()
+  useGetMyShops()
   const { userData } = useSelector((state) => state.user);
 
   return (
@@ -30,6 +37,11 @@ function App() {
         path="/"
         element={userData ? <Home /> : <Navigate to="/signin" />}
       />
+      <Route
+        path="/create-edit-shop"
+        element={userData ? <CreateEditShop /> : <Navigate to="/signin" />} />
+      <Route path="/add-item" element={userData ? <AddItems /> : <Navigate to="/signin" />} />
+      <Route path="/edit-item/:itemId" element={userData ? <EditItem /> : <Navigate to="/signin" />} />
     </Routes>
   );
 }
