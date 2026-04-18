@@ -12,7 +12,7 @@ import { LuReceipt } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
 function Nav() {
-  const { userData, currentCity } = useSelector((state) => state.user);
+  const { userData, currentCity, cartItems } = useSelector((state) => state.user);
   const { myShopData } = useSelector((state) => state.owner);
   const [showInfo, setShowInfo] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -50,7 +50,7 @@ function Nav() {
 
       <h1 className="text-3xl font-bold mb-2 text-[#ff4d2d]">Food Delivery</h1>
       {userData.role == "user" && (
-        <div className="md:w-[60%] lg:w-[40%] h-[60px] bg-white shadow-xl round-lg hidden md:flex">
+        <div className="md:w-[60%] lg:w-[60%] h-[60px] bg-white shadow-xl round-lg hidden md:flex">
           <div className="flex items-center w-[25%] overflow-hidden gap-[10px] px-[10px] border-r-[2px] border-gray-400 mb-[10px] mt-[10px]">
             {" "}
             <FaLocationDot size="25" className="text-[#ff4d2d]" />{" "}
@@ -100,10 +100,10 @@ function Nav() {
 
 
         {
-          userData.role == "user" && <button className="relative flex items-center gap-[5px] px-3 px-3 py-1 round-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium cursor-pointer">
+          userData.role == "user" && <button onClick={() => navigate("/cart")} className="relative flex items-center  gap-[5px] px-3 px-3 py-1 round-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium cursor-pointer">
             <LuReceipt />
-            <span className="hidden md:flex">My Orders</span>
-            <span className="absolute -right-2 -top-2 text-xs fony-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]">0</span>
+            <span className="hidden md:flex w-[72px]">My Orders</span>
+            <span className="absolute -right-2 -top-2 text-xs fony-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]">{cartItems.length}</span>
           </button>
         }
 
@@ -118,7 +118,7 @@ function Nav() {
             <div className="text-[17px] font-semibold">
               {userData?.fullname}
             </div>
-            {userData.role == "user" && <div className="md:hidden text-[#ff4d2d] font-semibold cursor-pointer">
+            {userData.role == "user" && <div className="md:hidden text-[#ff4d2d] font-semibold cursor-pointer" onClick={() => navigate("/cart")}>
               My Orders
             </div>}
             <div

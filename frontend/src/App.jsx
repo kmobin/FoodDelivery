@@ -11,12 +11,20 @@ import useGetMyShops from "./hooks/useGetMyShops";
 import CreateEditShop from "./pages/CreateEditShop";
 import AddItems from "./pages/AddItems";
 import EditItem from "./pages/EditItem";
+import useGetShopsByCity from "./hooks/useGetShopsByCity";
+import useGetItemsByCity from "./hooks/useGetItemsByCity";
+import Cart from "./pages/Cart";
+import useGetCart from "./hooks/useGetCart";
+import Checkout from "./pages/Checkout";
 export const serverUrl = "http://localhost:8000";
 
 function App() {
   useGetCurrentUser();
-  useGetCity()
+  
   useGetMyShops()
+  useGetShopsByCity()
+  useGetItemsByCity()
+  useGetCart()
   const { userData } = useSelector((state) => state.user);
 
   return (
@@ -42,6 +50,8 @@ function App() {
         element={userData ? <CreateEditShop /> : <Navigate to="/signin" />} />
       <Route path="/add-item" element={userData ? <AddItems /> : <Navigate to="/signin" />} />
       <Route path="/edit-item/:itemId" element={userData ? <EditItem /> : <Navigate to="/signin" />} />
+      <Route path="/cart" element={userData ? <Cart /> : <Navigate to="/signin" />} />
+      <Route path="/checkout" element={userData ? <Checkout /> : <Navigate to="/signin" />} />
     </Routes>
   );
 }

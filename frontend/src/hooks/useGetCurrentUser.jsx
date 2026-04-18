@@ -3,9 +3,11 @@ import axios from "axios";
 import { serverUrl } from "../App";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice.js";
+import useGetCity from "./useGetCity.jsx";
 
 function useGetCurrentUser() {
     const dispatch = useDispatch()
+    useGetCity()
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -19,6 +21,7 @@ function useGetCurrentUser() {
       }
     };
     fetchUser();
+    
   }, []);
 }
 
