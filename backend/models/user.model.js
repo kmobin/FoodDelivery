@@ -20,9 +20,15 @@ const userSchema = new mongoose.Schema(
     },
     otpExpires:{
       type: Date
+    },
+    location: {
+      type: {type: String, enum:["Point"], default:"Point"},
+      coordinates:{type:[Number], default:[0,0]}
     }
   },
   { timestamp: true }
 );
+
+userSchema.index({location: '2dsphere'})
 
 export const User = mongoose.model("User", userSchema);

@@ -25,7 +25,6 @@ function SignUp() {
 
   const handleSignUp = async() => {
       try{
-        
         if(!fullName || !email || !password || !role || !mobile){
           setError("All fields are required")
           setTimeout(()=> setError(""),4000)
@@ -34,7 +33,7 @@ function SignUp() {
         setIsLoading(true)
           const result = await axios.post(`${serverUrl}/api/auth/signup`,{
               fullname: fullName,email, password, role, mobile
-          },{withCredentials: true})
+          },{withCredentials: true}).then(res=> console.log("res---",res))
           console.log("result---",result)
           dispatch(setUserData(result.data))
           setFullName("")
@@ -46,6 +45,7 @@ function SignUp() {
           navigate("/signin")
           
       }catch(e){
+        console.log("sinup error",e.message,e)
         setIsLoading(false)
         setError(e.message)
       }

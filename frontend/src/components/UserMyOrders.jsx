@@ -1,0 +1,57 @@
+import React from 'react'
+
+function UserMyOrders({ data, index }) {
+    const formatDate = (dateString) => {
+        const date = new Date(dateString)
+        return date.toLocaleDateString('en-GB', {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        })
+    }
+    console.log("data.shopOrder?.[0].status---", data.shopOrders[0].status, data)
+    return (
+        <div key={index} className='bg-white rounded-lg shadow p-2 space-y-4'>
+            <div className='flex justify-between border-b pb-2'>
+                <div>
+                    <p className='font-semibold'>
+                        order #{data._id.slice(-6)}
+                    </p>
+                    <p className='text-sm text-gray-500'>
+                        Date: {formatDate(data.createdAt)}
+                    </p>
+                </div>
+                <div className='text-right'>
+                    <p className='text-sm text-gray-500'>{data.paymentMethod.toUpperCase()}</p>
+                    <p className='font-medium text-blue-600'>{data.shopOrders[0].status}</p>
+                </div>
+            </div>
+            {
+                data.shopOrders.map((shopOrder,index)=>(
+                    <div className='border rounded-lg p-3 bg-[#fffaf7] space-y-3' key={index}>
+                        <p>{shopOrder.shop.name}</p>
+                        <div className='flex space-x-4 overflow-x-auto pb-2'>
+                            {shopOrder.shopOrderItems.map((element, index)=>(
+                                <div className='flex-shrink-0 w-40 border rounded-lg p-2 bg-white' key={index}>
+                                    <img src={element.item.image} className='w-full h-24 object-cover rounded'/>
+                                    <p className='text-sm font-semibold mt-1'>{element.name}</p>
+                                    <p className='text-xs text-gray-500'>{element.quantity} x {element.price}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <div className='flex justify-between items-center border-t pt-2'>
+                            <p className='font-semibold'>subtotal: {shopOrder.subTotal}</p>
+                            <span className='text-sm font-medium text-blue-600'>{shopOrder.status}</span>
+                        </div>
+                    </div>
+                ))
+            }
+            <div className='flex justify-between items-center border-t pt-2'>
+                <p className='font-semibold'>Total: {data.totalAmount}</p>
+                <button className='bg-[#ff4d2d] hover:bg-[#e64526] text-white px-4 py-4 rounded-lg text-sm cursor-pointer'>Track Order</button>
+            </div>
+        </div>
+    )
+}
+
+export default UserMyOrders

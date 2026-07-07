@@ -14,6 +14,7 @@ import { FaCreditCard } from "react-icons/fa";
 import { serverUrl } from '../App';
 import { useNavigate } from "react-router-dom";
 import { saveToCart } from "../redux/userSlice";
+import useMyGetOrders from "../hooks/useMyGetOrders";
 
 function RecentMap({ location }) {
   if (location.lat && location.long) {
@@ -93,7 +94,8 @@ function Checkout() {
       },{withCredentials: true})
       console.log("result---",result)
       dispatch(saveToCart([]))
-      navigate("/")
+      useMyGetOrders()
+      navigate("/order-placed")
     }catch(error){
       console.log("handlePlaceOrder error: ",error)
     }

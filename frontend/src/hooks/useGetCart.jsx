@@ -8,11 +8,15 @@ function useGetCart() {
     const dispatch = useDispatch()
  useEffect(()=>{
     const fetchCart = async() => {
-        const {data} = await axios.get(`${serverUrl}/api/cart/get-cart-items`, {withCredentials: true})
-       console.log("useGetCart---",data)
+      try{
+           const {data} = await axios.get(`${serverUrl}/api/cart/get-cart-items`, {withCredentials: true})
+       
        dispatch(saveToCart(data))
        const total = data.reduce((sum, item) => sum + (item.price * item.quantity), 0)
        dispatch(setTotalAmount(total))
+      }catch(err){
+         console.log("fetchCart err:",err)
+      }
     } 
     fetchCart()
  },[])

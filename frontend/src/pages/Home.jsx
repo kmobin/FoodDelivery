@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import Nav from '../components/Nav'
 import OwnerDashboard from '../components/OwnerDashboard'
 import UserDashboard from '../components/UserDashboard'
+import DeliveryPartnerDashboard from '../components/DeliveryPartnerDashboard'
 
 function Home() {
     const {userData} = useSelector(state=> state.user)

@@ -13,14 +13,17 @@ function useGetCity() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         dispatch(setLocation({ lat: latitude, long: longitude }));
-         dispatch(setCurrentCity(data.results[0].city));
-        dispatch(setCurrentState(data.results[0].state));
+        const { data } = await axios.get(
+          `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${import.meta.env.VITE_GEO_API_KEY}`
+        );
+         dispatch(setCurrentCity(data?.results[0]?.city));
+        dispatch(setCurrentState(data?.results[0]?.state));
         dispatch(
           setCurrentAddress(
-            data.results[0].address_line2 || data.results[0].address_line1
+            data?.results[0]?.address_line2 || data?.results[0]?.address_line1
           )
         );
-        dispatch(setAddress(data.results[0].address_line2));
+        dispatch(setAddress(data?.results[0]?.address_line2));
     })
   },[userData])
 
@@ -43,9 +46,9 @@ function useGetCity() {
 
   //       dispatch(setLocation({ lat: latitude, long: longitude }));
 
-  //       const { data } = await axios.get(
-  //         `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${import.meta.env.VITE_GEO_API_KEY}`
-  //       );
+        // const { data } = await axios.get(
+        //   `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${import.meta.env.VITE_GEO_API_KEY}`
+        // );
 
   //       dispatch(setCurrentCity(data.results[0].city));
   //       dispatch(setCurrentState(data.results[0].state));

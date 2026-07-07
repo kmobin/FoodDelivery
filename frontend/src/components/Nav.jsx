@@ -12,12 +12,13 @@ import { LuReceipt } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
 function Nav() {
-  const { userData, currentCity, cartItems } = useSelector((state) => state.user);
+  const { userData, currentCity, cartItems, myOrders } = useSelector((state) => state.user);
   const { myShopData } = useSelector((state) => state.owner);
   const [showInfo, setShowInfo] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const navigate = useNavigate()
   const dispatch = useDispatch();
+  console.log("myOrders----",myOrders)
   const handleLogOut = async () => {
     try {
       const result = await axios.get(`${serverUrl}/api/auth/signout`, {
@@ -82,10 +83,10 @@ function Nav() {
             />
           ))}
         {userData.role == "user" && (
-          <div className="relative cursor-pointer">
+          <div className="relative cursor-pointer" onClick={() => navigate("/cart")}>
             <MdOutlineShoppingCart size="25" className="text-[#ff4d2d]" />
             <span className="absolute right-[-9px] top-[-12px] text-[#ff4d2d]">
-              0
+             {cartItems.length}
             </span>
           </div>
         )}
@@ -99,13 +100,13 @@ function Nav() {
         )}
 
 
-        {
-          userData.role == "user" && <button onClick={() => navigate("/cart")} className="relative flex items-center  gap-[5px] px-3 px-3 py-1 round-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium cursor-pointer">
+        
+          <button onClick={()=> navigate("/my-orders")}  className="relative flex items-center  gap-[5px] px-3 px-3 py-1 round-lg bg-[#ff4d2d]/10 text-[#ff4d2d] text-sm font-medium cursor-pointer">
             <LuReceipt />
             <span className="hidden md:flex w-[72px]">My Orders</span>
-            <span className="absolute -right-2 -top-2 text-xs fony-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]">{cartItems.length}</span>
+            <span className="absolute -right-2 -top-2 text-xs fony-bold text-white bg-[#ff4d2d] rounded-full px-[6px] py-[1px]">{myOrders?.length}</span>
           </button>
-        }
+        
 
         <div
           onClick={() => setShowInfo(!showInfo)}
@@ -118,9 +119,9 @@ function Nav() {
             <div className="text-[17px] font-semibold">
               {userData?.fullname}
             </div>
-            {userData.role == "user" && <div className="md:hidden text-[#ff4d2d] font-semibold cursor-pointer" onClick={() => navigate("/cart")}>
+            <div  onClick={()=> navigate("/my-orders")}  className="md:hidden text-[#ff4d2d] font-semibold cursor-pointer">
               My Orders
-            </div>}
+            </div>
             <div
               className="text-[#ff4d2d] font-semibold cursor-pointer"
               onClick={handleLogOut}
